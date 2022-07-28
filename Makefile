@@ -10,3 +10,5 @@ cuda_build:
 	g++ -o ./dist/gauss-seidel-cuda gauss-seidel-cuda.o -L/home/software/nvidia/cuda-8.0/lib64/  -lcudart -lcublas -fopenmp -O3 -Wextra -std=c++11
 cuda_run:
 	./dist/gauss-seidel-cuda 1024 64
+clean_out:
+	rm ./out/results.csv

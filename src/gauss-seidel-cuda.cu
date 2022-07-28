@@ -84,15 +84,15 @@ void write_to_file(int n, int num_blocks, int num_threads, float total_time, flo
 __global__ void solver(float **mat, float **mat_diff, int n)
 {
 
-    // Original position that this thread is assigned
+    // Posição original que esta thread está atribuída
     int i_org = (blockDim.x * blockIdx.x) + threadIdx.x;
 
-    // Real position that this thread is going to compute
+    // Posição real que esta thread irá calcular
     int i = i_org;
-    i = i + n; // VIP: The threads must avoid first row
-    i = i + 1; // VIP: The threads must avoid first column
+    i = i + n; // VIP: Os threads devem evitar a primeira linha
+    i = i + 1; // VIP: As threads devem evitar a primeira coluna
 
-    // In case the thread is leftover
+    // Caso a tenha tenha sobrado
     if (i >= ((n * n) - n - 1))
     {
         return;
@@ -113,13 +113,13 @@ __global__ void solver(float **mat, float **mat_diff, int n)
         temp = (*mat)[i];
         (*mat)[i] = 0.2 * ((*mat)[i] + (*mat)[pos_le] + (*mat)[pos_up] + (*mat)[pos_ri] + (*mat)[pos_do]);
 
-        // The LAST difference between the prev value and the new value is stored
+        // A ÚLTIMA diferença entre o valor anterior e o novo valor é armazenada
         diff = abs((*mat)[i] - temp);
         cnt_iter++;
     }
 
-    // Finally the difference is store in its corresponding cell
-    // VIP: Use '=' not '+=' to avoid non-zero values on the first func call
+    // Finalmente, a diferença é armazenada em sua célula correspondente
+    // VIP: Use '=' e não '+=' para evitar valores diferentes de zero na primeira chamada de função
     (*mat_diff)[i_org] = diff;
 }
 
