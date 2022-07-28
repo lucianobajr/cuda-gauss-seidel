@@ -1,0 +1,2 @@
+Matrix size;Blocks;Threads per block;Total time;Operations time;
+1024;16320;64;0.022364;0.003664;
